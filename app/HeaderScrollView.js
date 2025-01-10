@@ -1,7 +1,12 @@
-import React, { useRef } from 'react';
-import { Animated, ScrollView, StyleSheet, Text, View } from 'react-native';
-
 import { Component } from 'react';
+import {
+  Animated,
+  ScrollView,
+  View,
+  Dimensions,
+  Platform
+} from 'react-native';
+
 
 class Header extends Component {
   constructor(props) {
@@ -12,8 +17,8 @@ class Header extends Component {
 export default class extends Component {
   constructor(props) {
     super(props);
-    this.min = this.props.minSize ?? 56;
-    this.max = this.props.maxSize ?? 393;
+    this.min = this.props.minSize ?? ( Platform.OS == 'ios' ? 102 : 64);
+    this.max = this.props.maxSize ?? Dimensions.get('window').width;
     this.offset = this.max - this.min;
     this.animatedRef = new Animated.Value(0);
     this.scrolled = 0;
@@ -22,6 +27,7 @@ export default class extends Component {
       outputRange: [this.max, this.min],
       extrapolate: 'clamp',
     });
+
 
     this.btnMaxBottom = this.props.actionBottom ?? -28;
     this.btnMinBottom = (this.min / 2) - 16;
@@ -79,11 +85,11 @@ export default class extends Component {
   }
 
   Header = () => {
-    const { ActionButton,CardRadius } = this;
+    const { ActionButton, CardRadius } = this;
     return (
       <Animated.View
         style={{
-          minHeight: this.min,
+          minHeight: 16,
           height: this.HeaderSize,
           maxHeight: this.max,
           backgroundColor: "red",
@@ -94,7 +100,7 @@ export default class extends Component {
         }}
       >
         {this.props?.HeaderContent ?? null}
-        <CardRadius/>
+        <CardRadius />
         <ActionButton />
       </Animated.View>
     );
