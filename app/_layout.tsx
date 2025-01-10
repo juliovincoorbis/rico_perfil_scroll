@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import HeaderScrollView from "./HeaderScrollView";
 import { StyleSheet } from "react-native";
 import { Image } from "react-native";
+import { useFonts } from "expo-font";
 const DATA = [
   {id: 1},
   {id: 2},
@@ -14,8 +15,22 @@ const DATA = [
   {id: 8},
   {id: 9},
   {id: 10},
+  {id: 10},
+  {id: 10},
+  {id: 10},
+  {id: 10},
 ];
 export default function RootLayout() {
+  const [loaded, error] = useFonts({
+    'MSOF': require('../assets/fonts/filled_outlined_24_400.ttf'),
+    'MSO': require('../assets/fonts/outlined_24_400.ttf'),
+    'MSOFB': require('../assets/fonts/filled_outlined_24_700.ttf'),
+    'MSOB': require('../assets/fonts/outlined_24_700.ttf'),
+  });
+  if (!loaded) {
+    return null;
+  }
+
   return (
     <View>
       <HeaderScrollView HeaderContent={(
@@ -29,9 +44,9 @@ export default function RootLayout() {
           }}
         />
       )}>
-      {DATA.map(val => {
+      {DATA.map((val,key) => {
           return (
-            <View style={styles.card}>
+            <View style={styles.card} key={key}>
               <Text style={styles.subtitle}>({val.id})</Text>
             </View>
           );
